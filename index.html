@@ -42,7 +42,7 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Enhanced Global Background */
+        /* Enhanced Global Background with Light Effects */
         body::before {
             content: '';
             position: fixed;
@@ -51,13 +51,13 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 10% 20%, rgba(0, 122, 255, 0.04) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(88, 86, 214, 0.04) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(48, 209, 88, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 90% 10%, rgba(255, 159, 10, 0.03) 0%, transparent 50%);
+                radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 122, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(88, 86, 214, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(48, 209, 88, 0.04) 0%, transparent 40%);
             pointer-events: none;
             z-index: -1;
             animation: backgroundShift 20s ease-in-out infinite;
+            transition: all 0.3s ease;
         }
 
         @keyframes backgroundShift {
@@ -65,11 +65,206 @@
             50% { opacity: 0.7; }
         }
 
+        /* Scroll-activated Light Effects */
+        .light-effect {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .light-effect.active {
+            opacity: 1;
+        }
+
+        /* Rotating Beam for Hero Section */
+        .hero-light {
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            transform: translate(-50%, -50%);
+        }
+
+        .rotating-beam {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .beam {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 150px;
+            background: linear-gradient(to top, transparent, rgba(0, 122, 255, 0.6), rgba(255, 255, 255, 0.8), rgba(0, 122, 255, 0.6), transparent);
+            transform-origin: bottom center;
+            transform: translate(-50%, -100%) rotate(0deg);
+            animation: rotateBeam 8s linear infinite;
+            box-shadow: 
+                0 0 10px rgba(0, 122, 255, 0.5),
+                0 0 20px rgba(0, 122, 255, 0.3);
+        }
+
+        @keyframes rotateBeam {
+            from { transform: translate(-50%, -100%) rotate(0deg); }
+            to { transform: translate(-50%, -100%) rotate(360deg); }
+        }
+
+        .beam-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.9), rgba(0, 122, 255, 0.7), transparent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 
+                0 0 15px rgba(0, 122, 255, 0.8),
+                0 0 30px rgba(0, 122, 255, 0.6);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.5); }
+        }
+
+        /* Particle Wave for Skills Section */
+        .skills-light {
+            top: 20%;
+            left: 0;
+            width: 100%;
+            height: 60%;
+        }
+
+        .particle-wave {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            animation: wave 6s ease-in-out infinite;
+            box-shadow: 0 0 6px currentColor;
+        }
+
+        .particle:nth-child(2n) {
+            background: var(--secondary-purple);
+            animation-direction: reverse;
+            animation-duration: 8s;
+        }
+
+        .particle:nth-child(3n) {
+            background: var(--accent-green);
+            animation-duration: 7s;
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: translateY(0) translateX(0) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-60px) translateX(20px) scale(1);
+            }
+        }
+
+        /* Holographic Orb for Projects Section */
+        .projects-light {
+            top: 30%;
+            right: 10%;
+            width: 200px;
+            height: 200px;
+        }
+
+        .holographic-orb {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle at 30% 30%, 
+                    rgba(255, 255, 255, 0.4) 0%, 
+                    rgba(0, 122, 255, 0.3) 20%, 
+                    rgba(88, 86, 214, 0.2) 40%, 
+                    rgba(48, 209, 88, 0.1) 60%, 
+                    transparent 80%);
+            animation: holographicSpin 12s linear infinite, holographicPulse 4s ease-in-out infinite;
+            box-shadow: 
+                0 0 30px rgba(0, 122, 255, 0.3),
+                0 0 60px rgba(88, 86, 214, 0.2),
+                inset 0 0 30px rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes holographicSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes holographicPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Lightning for Contact Section */
+        .contact-light {
+            top: 20%;
+            left: 15%;
+            width: 100px;
+            height: 300px;
+        }
+
+        .lightning {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(0, 122, 255, 0.8) 25%, 
+                rgba(255, 255, 255, 0.9) 50%, 
+                rgba(0, 122, 255, 0.8) 75%, 
+                transparent 100%);
+            transform: translateX(-50%);
+            animation: lightning 4s ease-in-out infinite;
+            box-shadow: 
+                0 0 10px rgba(0, 122, 255, 0.8),
+                0 0 20px rgba(255, 255, 255, 0.6);
+            clip-path: polygon(
+                40% 0%, 60% 0%, 45% 30%, 65% 30%, 35% 60%, 
+                55% 60%, 40% 100%, 25% 60%, 45% 60%, 35% 30%, 55% 30%
+            );
+        }
+
+        @keyframes lightning {
+            0%, 85%, 100% { 
+                opacity: 0; 
+                transform: translateX(-50%) scaleY(0);
+            }
+            5%, 10%, 80% { 
+                opacity: 1; 
+                transform: translateX(-50%) scaleY(1);
+            }
+        }
+
         /* Container */
         .container {
             max-width: 680px;
             margin: 0 auto;
             padding: 0 32px;
+            position: relative;
+            z-index: 10;
         }
 
         /* Header */
@@ -141,19 +336,9 @@
             letter-spacing: -0.01em;
         }
 
-        .typewriter.blinking::after {
-            content: '';
-            animation: blink 1.5s infinite;
-        }
-
         @keyframes gradientFlow {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
-        }
-
-        @keyframes blink {
-            0%, 50% { border-color: var(--primary-blue); }
-            51%, 100% { border-color: transparent; }
         }
 
         .subtitle {
@@ -267,6 +452,7 @@
             letter-spacing: -0.02em;
             text-align: center;
             position: relative;
+            z-index: 10;
         }
 
         .section-title::after {
@@ -290,16 +476,19 @@
             max-width: 600px;
             margin: 0 auto;
             text-align: left;
+            position: relative;
+            z-index: 10;
         }
 
         .section-content p {
             margin-bottom: 32px;
         }
 
-        /* Skills Section - Palkimas Style */
+        /* Skills Section */
         .skills-section {
             margin: 120px 0;
             padding: 80px 0;
+            position: relative;
         }
 
         .skills-grid {
@@ -307,6 +496,8 @@
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 40px;
             margin-top: 48px;
+            position: relative;
+            z-index: 10;
         }
 
         .skill-category {
@@ -364,12 +555,15 @@
             margin-right: -32px;
             padding-left: 32px;
             padding-right: 32px;
+            position: relative;
         }
 
         .projects-grid {
             display: grid;
             gap: 60px;
             margin-top: 64px;
+            position: relative;
+            z-index: 10;
         }
 
         .project-card {
@@ -399,11 +593,6 @@
             animation: gradientFlow 5s ease-in-out infinite;
             opacity: 0;
             transition: opacity 0.4s ease;
-        }
-
-        @keyframes gradientFlow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
         }
 
         .project-card:hover {
@@ -465,11 +654,10 @@
             width: 200%;
             height: 200%;
             background: 
-                radial-gradient(circle at 30% 70%, rgba(0, 122, 255, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 70% 30%, rgba(88, 86, 214, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(48, 209, 88, 0.04) 0%, transparent 50%);
+                radial-gradient(circle at 30% 70%, rgba(0, 122, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(88, 86, 214, 0.05) 0%, transparent 50%);
             animation: float 25s ease-in-out infinite;
-            z-index: -1;
+            z-index: 1;
         }
 
         @keyframes float {
@@ -497,6 +685,7 @@
                 0 4px 12px rgba(0, 122, 255, 0.2);
             letter-spacing: 0.005em;
             position: relative;
+            z-index: 10;
             overflow: hidden;
         }
 
@@ -649,6 +838,11 @@
                 margin-left: -20px;
                 margin-right: -20px;
             }
+
+            /* Hide complex light effects on mobile for performance */
+            .light-effect {
+                display: none;
+            }
         }
 
         @media (max-width: 480px) {
@@ -704,6 +898,32 @@
             <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
     </nav>
+
+    <!-- Light Effects Container -->
+    <div class="light-effects-container">
+        <!-- Hero Section Light Effect -->
+        <div class="light-effect hero-light" id="heroLight">
+            <div class="rotating-beam">
+                <div class="beam"></div>
+                <div class="beam-center"></div>
+            </div>
+        </div>
+
+        <!-- Skills Section Light Effect -->
+        <div class="light-effect skills-light" id="skillsLight">
+            <div class="particle-wave" id="particleWave"></div>
+        </div>
+
+        <!-- Projects Section Light Effect -->
+        <div class="light-effect projects-light" id="projectsLight">
+            <div class="holographic-orb"></div>
+        </div>
+
+        <!-- Contact Section Light Effect -->
+        <div class="light-effect contact-light" id="contactLight">
+            <div class="lightning"></div>
+        </div>
+    </div>
 
     <div class="container">
         <section id="home">
@@ -810,7 +1030,7 @@
     </div>
 
     <script>
-        // Enhanced Typewriter Effect - Fixed
+        // Enhanced Typewriter Effect
         const typewriter = document.getElementById('typewriter');
         const texts = [
             'Tech Enthusiast',
@@ -838,14 +1058,13 @@
                 typeSpeed = 100;
             }
             
-            // Add blinking class when typing is complete
             if (!isDeleting && charIndex === currentText.length) {
-                typeSpeed = 2500; // Longer pause at end
+                typeSpeed = 2500;
                 isDeleting = true;
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
                 textIndex = (textIndex + 1) % texts.length;
-                typeSpeed = 600; // Pause before next word
+                typeSpeed = 600;
             }
             
             setTimeout(type, typeSpeed);
@@ -853,7 +1072,81 @@
         
         // Start typewriter after initial animations
         setTimeout(type, 2000);
-        
+
+        // Generate particles for the wave effect
+        function generateParticles() {
+            const particleWave = document.getElementById('particleWave');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = `${(i / particleCount) * 100}%`;
+                particle.style.top = `${50 + Math.sin(i * 0.5) * 20}%`;
+                particle.style.animationDelay = `${i * 0.2}s`;
+                particleWave.appendChild(particle);
+            }
+        }
+
+        // Mouse tracking for interactive background
+        let mouseX = 50, mouseY = 50;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 100;
+            mouseY = (e.clientY / window.innerHeight) * 100;
+            
+            document.body.style.setProperty('--mouse-x', mouseX + '%');
+            document.body.style.setProperty('--mouse-y', mouseY + '%');
+        });
+
+        // Scroll-activated light effects
+        function updateLightEffects() {
+            const sections = {
+                home: document.getElementById('home'),
+                about: document.getElementById('about'),
+                skills: document.getElementById('skills'),
+                projects: document.getElementById('projects'),
+                contact: document.getElementById('contact')
+            };
+
+            const lightEffects = {
+                hero: document.getElementById('heroLight'),
+                skills: document.getElementById('skillsLight'),
+                projects: document.getElementById('projectsLight'),
+                contact: document.getElementById('contactLight')
+            };
+
+            const scrollY = window.scrollY;
+            const windowHeight = window.innerHeight;
+
+            // Hero light effect
+            if (sections.home) {
+                const rect = sections.home.getBoundingClientRect();
+                const isVisible = rect.top < windowHeight && rect.bottom > 0;
+                lightEffects.hero.classList.toggle('active', isVisible);
+            }
+
+            // Skills light effect
+            if (sections.skills) {
+                const rect = sections.skills.getBoundingClientRect();
+                const isVisible = rect.top < windowHeight * 0.8 && rect.bottom > windowHeight * 0.2;
+                lightEffects.skills.classList.toggle('active', isVisible);
+            }
+
+            // Projects light effect
+            if (sections.projects) {
+                const rect = sections.projects.getBoundingClientRect();
+                const isVisible = rect.top < windowHeight * 0.8 && rect.bottom > windowHeight * 0.2;
+                lightEffects.projects.classList.toggle('active', isVisible);
+            }
+
+            // Contact light effect
+            if (sections.contact) {
+                const rect = sections.contact.getBoundingClientRect();
+                const isVisible = rect.top < windowHeight * 0.8 && rect.bottom > windowHeight * 0.2;
+                lightEffects.contact.classList.toggle('active', isVisible);
+            }
+        }
+
         // Enhanced smooth scrolling
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
@@ -881,8 +1174,8 @@
                 nav.classList.remove('visible');
             }
             
-            // Update active navigation
             updateActiveNav();
+            updateLightEffects();
         });
         
         // Update active navigation based on scroll position
@@ -927,7 +1220,9 @@
         });
         
         // Initialize
+        generateParticles();
         updateActiveNav();
+        updateLightEffects();
         
         // Performance optimization - throttle scroll events
         let ticking = false;
@@ -943,6 +1238,7 @@
             }
             
             updateActiveNav();
+            updateLightEffects();
             ticking = false;
         }
         
@@ -952,6 +1248,10 @@
                 ticking = true;
             }
         });
+
+        // Initialize mouse position
+        document.body.style.setProperty('--mouse-x', '50%');
+        document.body.style.setProperty('--mouse-y', '50%');
     </script>
 </body>
 </html>
